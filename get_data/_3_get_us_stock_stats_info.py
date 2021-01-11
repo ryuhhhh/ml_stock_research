@@ -31,8 +31,9 @@ def get_stock_info(close_price_series,base_date_close_price,base_index=None,base
     coefficient_of_variation = get_coefficient_of_variation(close_price_series_batch[:20])
     # 基準日から前5,10,15,20日分の1次近似を取得する
     slope_list = get_slope_list_4_quarter(close_price_series_batch[:20].iloc[::-1])
-    # 基準日から後10日に10%以上高くなったか取得する
-    if_close_price_10_up = check_stock_price_skyrocketed(close_price_series[-10:],base_date_close_price)
+    # 基準日から後10日にratio倍高くなったか取得する
+    RATIO = 1.1
+    if_close_price_10_up = check_stock_price_skyrocketed(close_price_series_batch[-10:],base_date_close_price,RATIO)
     return coefficient_of_variation,slope_list,if_close_price_10_up
 
 def get_coefficient_of_variation(close_series):
@@ -78,6 +79,7 @@ def get_slope(close_price_list):
 
 def check_stock_price_skyrocketed(close_price_series,close_price,ratio=1.1):
     """
+    教師データ取得
     10営業日までに直近の終値よりratio%以上高くなったかどうか確認する
     Return:
         if_close_price_up(num):上がる->1,上がらない->0
@@ -85,4 +87,8 @@ def check_stock_price_skyrocketed(close_price_series,close_price,ratio=1.1):
     # print(f'{close_price}に対して後10日で{ratio}倍になった日があるか検索します')
     target_price = close_price*ratio
     if_close_price_up_bool = not close_price_series.where(close_price_series>target_price).isnull().all()
+    # print(close_price)
+    # print(target_price)
+    # print(close_price_series)
+    # print(int(if_close_price_up_bool))
     return int(if_close_price_up_bool)

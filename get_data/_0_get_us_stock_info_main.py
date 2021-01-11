@@ -1,4 +1,5 @@
 """
+TODO 5日にして縛りをきつくする
 TODO csv保存後に0と1の割合を確認する
 TODO 過去に株価が大きく変動した企業があるかチェック(発行済み株式総数が変化したか確認)
 1ヵ月毎にcsvにセーブ
@@ -55,8 +56,8 @@ if __name__ == "__main__":
             VALUES.IF_10per_UP_NEXT_10_DAYS,]
     # 銘柄リストをループ
     for index, row in us_stock_df.iterrows():
-      if index < 426:
-        continue
+      # if index < 426:
+      #   continue
       result_df_per_company = pd.DataFrame(index=[], columns=cols)
       result_df_per_company.set_index(VALUES.CODE_AND_DATE_ID,inplace=True)
       # 今は情報技術セクターのみ取得
