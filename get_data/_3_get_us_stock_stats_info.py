@@ -15,7 +15,7 @@ import numpy as np
 # 過去さかのぼる日数
 DATE_NUM_LENGTH = 40
 
-def get_stock_info(close_price_series,base_date):
+def get_stock_info(close_price_series,base_date_close_price,base_index=None,base_date=None):
     """
     以下の値を取得する
       - 変動係数
@@ -25,12 +25,15 @@ def get_stock_info(close_price_series,base_date):
       - 1次近似の傾き4(last 20 days)
       - 次の10営業日後に直近の終値より10%以上高くなったかどうか
     """
-    # 基準日から前20日-後10日分のデータを取得する
-    # 基準日の終値を取得する
+    # 基準日より前20日,後10日の長さ31日のseriesを取得
+    close_price_series_batch = close_price_series[base_index-19:base_index+11]
     # 基準日から前20日分の変動係数を取得する
+    coefficient_of_variation = get_coefficient_of_variation(close_price_series_batch[:20])
     # 基準日から前5,10,15,20日分の1次近似を取得する
+    slope_list = get_slope_list_4_quarter(close_price_series_batch[:20].iloc[::-1])
     # 基準日から後10日に10%以上高くなったか取得する
-    pass
+    if_close_price_10_up = check_stock_price_skyrocketed(close_price_series[-10:],base_date_close_price)
+    return coefficient_of_variation,slope_list,if_close_price_10_up
 
 def get_coefficient_of_variation(close_series):
     """
@@ -39,33 +42,20 @@ def get_coefficient_of_variation(close_series):
     coefficient_of_variation = round(stats.variation(close_series),2)
     return coefficient_of_variation
 
-def check_stock_price_skyrocketed(close_series,start):
-    """
-    10営業日までに直近の終値より15%以上高くなったかどうか確認する
-    """
-    pass
-
-def get_slope_list_4_quarter(close_price_series,base_date):
+def get_slope_list_4_quarter(close_price_series):
     """
     日付降順の終値リストに指定されている期間で株価を取得し1時近似を取得する
+    Returns:
+        1次近似のリスト(list):5,10,15,20日前のリストを取得する
     """
     QUARTER_NUM = 4
-    close_price_series_length = len(close_price_series)
-    # ループ用変数
-    close_price_series_length_quarter = int(close_price_series_length/QUARTER_NUM)
-    loop_length = close_price_series_length_quarter
     slope_list = []
-    # データが少なすぎる場合はスキップ
-    if close_price_series_length < QUARTER_NUM:
-        print('データが少ないためスキップします')
-        return slope_list
     # 指定期間の4等分の上昇量を取得する
-    while loop_length < close_price_series_length:
+    for i in range(5,len(close_price_series)+1,int(len(close_price_series)/QUARTER_NUM)):
         try:
             # 日付で区切りながら昇順にしていく
-            slope = get_slope(close_price_series[:loop_length].iloc[::-1])
+            slope = get_slope(close_price_series[:i].iloc[::-1])
             # print(f'{loop_length}日前からの上昇量は{slope}です')
-            loop_length += close_price_series_length_quarter
             slope_list.append(slope)
         except Exception:
             print(f'1次近似取得時にエラー発生。スキップします。')
@@ -86,6 +76,13 @@ def get_slope(close_price_list):
         return 0
     return slope
 
-
-if __name__ == "__main__":
-    pass
+def check_stock_price_skyrocketed(close_price_series,close_price,ratio=1.1):
+    """
+    10営業日までに直近の終値よりratio%以上高くなったかどうか確認する
+    Return:
+        if_close_price_up(num):上がる->1,上がらない->0
+    """
+    # print(f'{close_price}に対して後10日で{ratio}倍になった日があるか検索します')
+    target_price = close_price*ratio
+    if_close_price_up_bool = not close_price_series.where(close_price_series>target_price).isnull().all()
+    return int(if_close_price_up_bool)
