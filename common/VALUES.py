@@ -11,6 +11,7 @@ INDUSTRY = '業種'
 VOLUME = '出来高'
 COEFFICIENT_OF_VARIATION = '変動係数'
 IF_10per_UP_NEXT_10_DAYS = '次の10日で株価が10%以上上がったか'
+CLOSE_PRICE_UP_RATIO = '10日間の株価上昇率'
 
 SLOPE_OF_LAST_5_DAYS = '直近5日の1次近似の傾き'
 SLOPE_OF_LAST_10_DAYS = '直近10日の1次近似の傾き'

@@ -10,34 +10,31 @@ import _2_get_close_prices_and_volume as pav
 import _3_get_us_stock_stats_info as ussi
 import VALUES
 import pandas as pd
+import os,sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '../common'))
+import utils
 
 # 過去n日分ずつさかのぼるのを指定
 SKIP_DATE = 10
 
 
-def save_to_dataframe(result_df_per_company,code,base_date,base_date_close_price,volume,coefficient_of_variation,slope_list,if_close_price_10_up):
+# def save_to_dataframe(result_df_per_company,code,base_date,base_date_close_price,volume,coefficient_of_variation,slope_list,if_close_price_10_up,close_price_up_ratio):
+def save_to_dataframe(result_df_per_company,data):
   """
   各企業ごとにdfに保存する処理
   """
-  result_df_per_company.loc[code+base_date.strftime('%Y%m%d')]=[
-            base_date,
-            base_date_close_price,
-            volume,
-            coefficient_of_variation,
-            slope_list[0],
-            slope_list[1],
-            slope_list[2],
-            slope_list[3],
-            if_close_price_10_up]
+  result_df_per_company.loc[data.code+data.base_date.strftime('%Y%m%d')]=[
+            data.base_date,
+            data.base_date_close_price,
+            data.volume,
+            data.coefficient_of_variation,
+            data.slope_list[0],
+            data.slope_list[1],
+            data.slope_list[2],
+            data.slope_list[3],
+            data.if_close_price_10_up,
+            data.close_price_up_ratio]
   return result_df_per_company
-
-def save_to_csv(df,path):
-    """
-    dataframeをcsvに保存します
-    """
-    ENCODING_TYPE = 'utf-8-sig'
-    print(df)
-    df.to_csv(path,encoding=ENCODING_TYPE)
 
 if __name__ == "__main__":
     pass
@@ -53,7 +50,8 @@ if __name__ == "__main__":
             VALUES.SLOPE_OF_LAST_15_DAYS,
             VALUES.SLOPE_OF_LAST_20_DAYS,
             VALUES.COEFFICIENT_OF_VARIATION,
-            VALUES.IF_10per_UP_NEXT_10_DAYS,]
+            VALUES.IF_10per_UP_NEXT_10_DAYS,
+            VALUES.CLOSE_PRICE_UP_RATIO]
     # 銘柄リストをループ
     for index, row in us_stock_df.iterrows():
       # if index < 426:
@@ -81,18 +79,19 @@ if __name__ == "__main__":
         base_date_close_price = round(price_series[i],2)
         volume = price_and_volume_df.at[base_date, 'Volume']
         # 3:変動係数,1次近似,株価が十分に上昇か を取得します
-        coefficient_of_variation,slope_list,if_close_price_10_up = \
+        coefficient_of_variation,slope_list,if_close_price_up,max_price,close_price_up_ratio = \
           ussi.get_stock_info(price_series,base_date_close_price,i,base_date)
         # 企業ごとの結果用dfに代入
         result_df_per_company = save_to_dataframe(result_df_per_company,
-                                                  code,
-                                                  base_date,
-                                                  base_date_close_price,
-                                                  volume,
-                                                  coefficient_of_variation,
-                                                  slope_list,
-                                                  if_close_price_10_up)
+                                                  {code:code,
+                                                  base_date:base_date,
+                                                  base_date_close_price:base_date_close_price,
+                                                  volume:volume,
+                                                  coefficient_of_variation:coefficient_of_variation,
+                                                  slope_list:slope_list,
+                                                  if_close_price_up:if_close_price_up,
+                                                  close_price_up_ratio:close_price_up_ratio})
       # CSV化し保存する
-      save_to_csv(result_df_per_company,'got_data/companies/'+code+'.csv')
+      utils.save_to_csv(result_df_per_company,'got_data/companies/'+code+'.csv')
       print('csvに保存しました\n')
 

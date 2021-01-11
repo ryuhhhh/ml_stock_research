@@ -33,8 +33,8 @@ def get_stock_info(close_price_series,base_date_close_price,base_index=None,base
     slope_list = get_slope_list_4_quarter(close_price_series_batch[:20].iloc[::-1])
     # 基準日から後10日にratio倍高くなったか取得する
     RATIO = 1.1
-    if_close_price_10_up = check_stock_price_skyrocketed(close_price_series_batch[-10:],base_date_close_price,RATIO)
-    return coefficient_of_variation,slope_list,if_close_price_10_up
+    if_close_price_up,max_price,close_price_up_ratio = check_stock_price_skyrocketed(close_price_series_batch[-10:],base_date_close_price,RATIO)
+    return coefficient_of_variation,slope_list,if_close_price_up,max_price,close_price_up_ratio
 
 def get_coefficient_of_variation(close_series):
     """
@@ -86,9 +86,15 @@ def check_stock_price_skyrocketed(close_price_series,close_price,ratio=1.1):
     """
     # print(f'{close_price}に対して後10日で{ratio}倍になった日があるか検索します')
     target_price = close_price*ratio
-    if_close_price_up_bool = not close_price_series.where(close_price_series>target_price).isnull().all()
+    # if_close_price_up_bool = not close_price_series.where(close_price_series>target_price).isnull().all()
+    if_close_price_up = 0
+    max_price = close_price_series.max()
+    if max_price > target_price:
+        if_close_price_up = 1
+    close_price_up_ratio = round(max_price/close_price,2)
     # print(close_price)
     # print(target_price)
+    # print(max_price)
     # print(close_price_series)
-    # print(int(if_close_price_up_bool))
-    return int(if_close_price_up_bool)
+    # print(if_close_price_up_bool)
+    return if_close_price_up,max_price,close_price_up_ratio

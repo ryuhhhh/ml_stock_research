@@ -26,7 +26,6 @@ def get_close_price_and_volume_df(code):
     except Exception as ex:
         print(f'終値取得時にエラー')
         print(traceback.format_exc())
-    return close_price_and_volume_df
     time.sleep(1)
 
     # print(close_price_and_volume_df[['Close','Volume']])

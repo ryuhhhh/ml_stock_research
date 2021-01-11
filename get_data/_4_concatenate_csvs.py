@@ -15,7 +15,7 @@ def concat_csvs(sourth_dir,dest_path):
 
 if __name__ == "__main__":
     sourth_dir = os.path.join(os.path.dirname(__file__) + '/../got_data/companies')
-    dest_dir = os.path.join(os.path.dirname(__file__) + '/../got_data/concated_us_info_list.csv')
+    dest_dir = os.path.join(os.path.dirname(__file__) + '/../got_data/concated_companies/concated_us_info_list.csv')
     paths = glob.glob(sourth_dir+'/*')
     result_df = pd.DataFrame(index=[], columns=[])
     for path in paths:
