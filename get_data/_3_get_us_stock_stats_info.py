@@ -41,7 +41,7 @@ def get_stock_info(close_price_series,base_date_close_price,base_index=None,base
     if_close_price_up,max_price,close_price_up_ratio = \
         check_stock_price_skyrocketed(close_price_series_batch[-10:],base_date_close_price,RATIO)
     # 1σ,2σからの距離を取得する
-    sigma1,sigma2 = get_sigma_distance(close_price_series)
+    sigma1,sigma2 = get_sigma_distance(close_price_series_batch[:20])
 
     return coefficient_of_variation,\
            slope_list,\

@@ -1,5 +1,6 @@
 """
 4. 取得したcsvを列方向に連結し1つのcsvにします。
+TODO 0につなげて自動化します
 """
 import os,sys
 import glob
