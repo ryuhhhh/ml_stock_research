@@ -13,6 +13,11 @@ def impute_missing_value(df):
     ※今回は取得出来なかった値を0においているため何もしない
     """
 
+def delete_outliers():
+    """
+    外れ値を四分位数を元に削除します
+    """
+
 def standardize_data(df,columns):
     """
     データを標準化します
