@@ -34,8 +34,7 @@ def save_to_dataframe(result_df_per_company,data):
             data['slope_list'][3],
             data['if_close_price_up'],
             data['close_price_up_ratio'],
-            data['sigma1'],
-            data['sigma2']]
+            data['rho']]
   return result_df_per_company
 
 if __name__ == "__main__":
@@ -54,8 +53,7 @@ if __name__ == "__main__":
             VALUES.COEFFICIENT_OF_VARIATION,
             VALUES.IF_10per_UP_NEXT_10_DAYS,
             VALUES.CLOSE_PRICE_UP_RATIO,
-            VALUES.SIGMA_1,
-            VALUES.SIGMA_2]
+            VALUES.RHO]
     # 銘柄リストをループ
     for index, row in us_stock_df.iterrows():
       # if index < 426:
@@ -83,7 +81,7 @@ if __name__ == "__main__":
         base_date_close_price = round(price_series[i],2)
         volume = price_and_volume_df.at[base_date, 'Volume']
         # 3:変動係数,1次近似,株価が十分に上昇か を取得します
-        coefficient_of_variation,slope_list,if_close_price_up,max_price,close_price_up_ratio,sigma1,sigma2 = \
+        coefficient_of_variation,slope_list,if_close_price_up,close_price_up_ratio,rho = \
           ussi.get_stock_info(price_series,base_date_close_price,i,base_date)
         data = {
                  'code':code,
@@ -94,8 +92,7 @@ if __name__ == "__main__":
                  'slope_list':slope_list,
                  'if_close_price_up':if_close_price_up,
                  'close_price_up_ratio':close_price_up_ratio,
-                 'sigma1':sigma1,
-                 'sigma2':sigma2
+                 'rho':rho
                 }
         # 企業ごとの結果用dfに代入
         result_df_per_company = save_to_dataframe(result_df_per_company,data)

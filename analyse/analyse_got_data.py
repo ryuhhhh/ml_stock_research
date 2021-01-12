@@ -1,5 +1,6 @@
 """
-相関係数
+相関係数を調査します
+調査結果よりデータを修正する際はedit_dataで行います
 """
 import sys,os
 import pandas as pd
@@ -42,8 +43,7 @@ if __name__ == "__main__":
             VALUES.SLOPE_OF_LAST_20_DAYS,
             VALUES.COEFFICIENT_OF_VARIATION,
             VALUES.CLOSE_PRICE_UP_RATIO,
-            VALUES.SIGMA_1,
-            VALUES.SIGMA_2]]
+            VALUES.RHO]]
 
     # 様々な値を組み合わせて新しいdfを作成
     df = make_grid_param(df,[
@@ -54,8 +54,7 @@ if __name__ == "__main__":
             VALUES.SLOPE_OF_LAST_15_DAYS,
             VALUES.SLOPE_OF_LAST_20_DAYS,
             VALUES.COEFFICIENT_OF_VARIATION,
-            VALUES.SIGMA_1,
-            VALUES.SIGMA_2])
+            VALUES.RHO])
 
     df_corr = df.corr()
     df_corr['10日間の株価上昇率'].to_csv('./corr.csv',encoding='utf-8-sig')

@@ -38,18 +38,16 @@ def get_stock_info(close_price_series,base_date_close_price,base_index=None,base
     slope_list = get_slope_list_4_quarter(close_price_series_batch[:20].iloc[::-1])
     # 基準日から後10日にratio倍高くなったか取得する
     RATIO = 1.1
-    if_close_price_up,max_price,close_price_up_ratio = \
+    if_close_price_up,close_price_up_ratio = \
         check_stock_price_skyrocketed(close_price_series_batch[-10:],base_date_close_price,RATIO)
-    # 1σ,2σからの距離を取得する
-    sigma1,sigma2 = get_sigma_distance(close_price_series_batch[:20])
+    # 標準偏差を取得する
+    rho = get_rho(close_price_series_batch[:20])
 
     return coefficient_of_variation,\
            slope_list,\
            if_close_price_up,\
-           max_price,\
            close_price_up_ratio,\
-           sigma1,\
-           sigma2
+           rho
 
 
 def get_coefficient_of_variation(close_series):
@@ -107,14 +105,12 @@ def check_stock_price_skyrocketed(close_price_series,close_price,ratio=1.1):
     if max_price > target_price:
         if_close_price_up = 1
     close_price_up_ratio = round(max_price/close_price,2)
-    return if_close_price_up,max_price,close_price_up_ratio
+    return if_close_price_up,close_price_up_ratio
 
-def get_sigma_distance(close_price_series):
+def get_rho(close_price_series):
     """
-    終値の2σまでを取得します
+    標準偏差を取得します
     """
     # 標準偏差を取得
-    sigma1 = round(close_price_series.std(),2)
-    sigma2 = 2*sigma1
-    # 距離を取得
-    return sigma1,sigma2
+    return round(close_price_series.std(),2)
+
