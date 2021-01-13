@@ -7,7 +7,7 @@ import traceback
 import pandas as pd
 ONE_HUNDRED_MILLION = 100000000
 
-def get_close_price_and_volume_df(code):
+def get_close_price_and_volume_df(code,start = '2020-01-01',end = '2021-01-10'):
     """
     終値・取引高のdfを取得する
     args:
@@ -17,9 +17,6 @@ def get_close_price_and_volume_df(code):
         close_price_and_volume_df(series):終値と出来高のdf
     """
     close_price_and_volume_df = pd.DataFrame(index=[], columns=[])
-    # 終値を取得する日付を指定する
-    start = '2020-01-01'
-    end = '2021-01-10'
     # 終値のシリーズを取得する
     try:
         close_price_and_volume_df = pdr.DataReader(code, 'yahoo',start,end)

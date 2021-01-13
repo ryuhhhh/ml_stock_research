@@ -20,7 +20,7 @@ import numpy as np
 # 過去さかのぼる日数
 DATE_NUM_LENGTH = 40
 
-def get_stock_info(close_price_series,base_date_close_price,base_index=None,base_date=None):
+def get_stock_info(close_price_series,base_date_close_price,base_index=None,base_date=None,is_today=False):
     """
     以下の値を取得する
       - 変動係数
@@ -31,18 +31,25 @@ def get_stock_info(close_price_series,base_date_close_price,base_index=None,base
       - 次の10営業日後に直近の終値より10%以上高くなったかどうか
     """
     # 基準日より前20日,後10日の長さ31日のseriesを取得
-    close_price_series_batch = close_price_series[base_index-19:base_index+11]
+    if not is_today:
+       close_price_series_batch = close_price_series[base_index-19:base_index+11]
+    else :
+        close_price_series_batch = close_price_series[-20:]
     # 基準日から前20日分の変動係数を取得する
     coefficient_of_variation = get_coefficient_of_variation(close_price_series_batch[:20])
     # 基準日から前5,10,15,20日分の1次近似を取得する
     slope_list = get_slope_list_4_quarter(close_price_series_batch[:20].iloc[::-1])
+    # 標準偏差を取得する
+    rho = get_rho(close_price_series_batch[:20])
+    # 予測用に使用する場合はここで返す
+    if is_today:
+        return coefficient_of_variation,\
+               slope_list,\
+               rho
     # 基準日から後10日にratio倍高くなったか取得する
     RATIO = 1.1
     if_close_price_up,close_price_up_ratio = \
         check_stock_price_skyrocketed(close_price_series_batch[-10:],base_date_close_price,RATIO)
-    # 標準偏差を取得する
-    rho = get_rho(close_price_series_batch[:20])
-
     return coefficient_of_variation,\
            slope_list,\
            if_close_price_up,\
