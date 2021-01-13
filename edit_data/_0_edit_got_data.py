@@ -92,6 +92,12 @@ if __name__ == "__main__":
                               VALUES.SLOPE_OF_LAST_15_DAYS,
                               VALUES.SLOPE_OF_LAST_20_DAYS,
                               VALUES.COEFFICIENT_OF_VARIATION,
+                              VALUES.SLOPE5_DEVIDE_RHO,
+                              VALUES.VOLUME_DEVIDE_RHO,
+                              VALUES.SLOPE5_DEVIDE_CLOSE_PRICE,
+                              VALUES.VOLUME_DEVIDE_CLOSE_PRICE,
+                              VALUES.RHO_DEVIDE_CLOSE_PRICE,
+                              VALUES.VOLUME_DEVIDE_SLOPE15
                               ])
     # 訓練用とテスト用でデータ分割
     df_train, df_test = split_data(df)
