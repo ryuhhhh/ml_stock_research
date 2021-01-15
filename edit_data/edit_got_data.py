@@ -87,7 +87,7 @@ def main(is_fit=True):
     main関数
     データを加工
     """
-    source_path = 'got_data/concated_companies/'
+    source_path = 'data/got_data/concated_companies/'
     if is_fit:
         source_path = source_path + 'concated_us_info_list.csv'
     else:
@@ -101,11 +101,11 @@ def main(is_fit=True):
 
     if is_fit:
         # 訓練セットを保存
-        utils.save_to_csv(df_train,'data/got_data/train.csv')
-        utils.save_to_csv(df_test,'data/got_data/test.csv')
+        utils.save_to_csv(df_train,'data/edited_data/train.csv')
+        utils.save_to_csv(df_test,'data/edited_data/test.csv')
     else:
         # 特徴量を保存
-        utils.save_to_csv(df,'data/got_data/todays.csv')
+        utils.save_to_csv(df,'data/edited_data/todays.csv')
 
 if __name__ == "__main__":
     """

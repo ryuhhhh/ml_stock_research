@@ -87,7 +87,7 @@ def main():
       result_df_per_company = add_to_dataframe(result_df_per_company,data)
 
   # CSV化し保存する
-  utils.save_to_csv(result_df_per_company,'got_data/concated_companies/todays_concated_us_list_.csv')
+  utils.save_to_csv(result_df_per_company,'data/got_data/concated_companies/todays_concated_us_list_.csv')
   print('csvに保存しました\n')
 
 

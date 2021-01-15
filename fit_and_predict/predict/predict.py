@@ -16,7 +16,7 @@ def load_model(name='fit_and_predict/models/model.pickle'):
         model = pickle.load(fp)
     return model
 
-def load_todays_data(path='data/got_data/todays.csv'):
+def load_todays_data(path='data/edited_data/todays.csv'):
     """
     本日分のデータをロードします
     """
