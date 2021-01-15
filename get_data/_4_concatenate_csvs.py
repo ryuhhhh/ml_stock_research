@@ -14,7 +14,11 @@ def concat_csvs(sourth_dir,dest_path):
     """
     pass
 
-if __name__ == "__main__":
+def main():
+    """
+    main関数
+    データ連結
+    """
     sourth_dir = os.path.join(os.path.dirname(__file__) + '/../got_data/companies')
     dest_dir = os.path.join(os.path.dirname(__file__) + '/../got_data/concated_companies/concated_us_info_list.csv')
     paths = glob.glob(sourth_dir+'/*')
@@ -25,3 +29,7 @@ if __name__ == "__main__":
         print(f'{path}を連結')
     result_df.to_csv(dest_dir,encoding=ENCODING_TYPE)
     print(f'{dest_dir}に保存しました')
+
+
+if __name__ == "__main__":
+    main()

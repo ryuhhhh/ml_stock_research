@@ -82,13 +82,41 @@ def edit_data_from_analyse_result(df):
     print(df.columns)
     return df
 
-if __name__ == "__main__":
-    df = utils.read_csv('got_data/concated_companies/concated_us_info_list.csv')
+def main(is_fit=True):
+    """
+    main関数
+    データを加工
+    """
+    source_path = 'got_data/concated_companies/'
+    if is_fit:
+        source_path = source_path + 'concated_us_info_list.csv'
+    else:
+        source_path = source_path + 'todays_concated_us_list_.csv'
+    df = utils.read_csv(source_path)
     df = edit_data_from_analyse_result(df)
     # データを標準化
     df = standardize_data(df,VALUES.STANDARDIZE_TARGET_COLS)
     # 訓練用とテスト用でデータ分割
     df_train, df_test = split_data(df)
-    # 訓練セットを保存
-    utils.save_to_csv(df_train,'edited_data/train.csv')
-    utils.save_to_csv(df_test,'edited_data/test.csv')
+
+    if is_fit:
+        # 訓練セットを保存
+        utils.save_to_csv(df_train,'edited_data/train.csv')
+        utils.save_to_csv(df_test,'edited_data/test.csv')
+    else:
+        # 特徴量を保存
+        utils.save_to_csv(df,'edited_data/todays.csv')
+
+if __name__ == "__main__":
+    """
+    特徴量を加工します
+    args:
+
+    """
+    # 引数がある場合取得
+    args = sys.argv
+    if len(args) > 1:
+        is_fit = args[1]
+        main(is_fit)
+    else:
+        main()

@@ -23,7 +23,11 @@ def load_todays_data(path='edited_data/todays.csv'):
     df = pd.read_csv(path,encoding='utf-8')
     return df
 
-if __name__ == "__main__":
+def main():
+    """
+    main関数
+    予測を行います
+    """
     target_columns = [
                         VALUES.COEFFICIENT_OF_VARIATION,
                         VALUES.SLOPE_OF_LAST_5_DAYS,
@@ -42,3 +46,7 @@ if __name__ == "__main__":
     for index, prediction in np.ndenumerate(predictions):
         if int(prediction) == 1:
             print(origin_df.iloc[index].ID)
+
+
+if __name__ == "__main__":
+    main()

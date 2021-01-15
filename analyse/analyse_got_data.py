@@ -32,7 +32,11 @@ def make_grid_param(df,columns):
             df = pd.concat([df, series_plus,series_minus,series_divide,series_cross], axis=1)
     return df
 
-if __name__ == "__main__":
+def main():
+    """
+    メイン関数
+    データを分析します
+    """
     source_dir = os.path.join(os.path.dirname(__file__) + '/../got_data/concated_companies/concated_us_info_list.csv')
     df = pd.read_csv(source_dir,encoding='utf-8')
     df = df[[VALUES.CLOSING_PRICE,
@@ -67,3 +71,8 @@ if __name__ == "__main__":
 # 出来高_終値_devide	0.169579892
 # 1σ_終値_devide	0.135024254
 # 出来高_直近15日の1次近似の傾き_devide	0.098294569
+
+
+
+if __name__ == "__main__":
+    main()

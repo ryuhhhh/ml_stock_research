@@ -72,7 +72,11 @@ def save_model(model,name='fit_and_predict/models/model.pickle'):
     with open(name, mode='wb') as fp:
         pickle.dump(model, fp)
 
-if __name__ == "__main__":
+def main():
+    """
+    main関数
+    モデルを作成します
+    """
     X_train,y_train = get_train_data()
     X_test,y_test = get_test_data()
     target_columns = [
@@ -107,6 +111,10 @@ if __name__ == "__main__":
 
     voting_clf.fit(X_train,y_train)
     save_model(voting_clf)
+
+if __name__ == "__main__":
+    main()
+
     # val_score,confusion_matrix_train,precision_score_train,confusion_matrix_test,precision_score_test =\
     #      check_all(voting_clf,X_train,y_train,X_test,y_test)
     # print(confusion_matrix_train)
