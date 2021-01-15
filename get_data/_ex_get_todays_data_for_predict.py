@@ -11,6 +11,9 @@ import os,sys
 import datetime
 sys.path.append(os.path.join(os.path.dirname(__file__), '../common'))
 
+# 時価総額の閾値(億ドル)
+MARKET_CAP_THRESHHOLD = 5
+
 def add_to_dataframe(result_df_per_company,data):
   """
   各企業ごとにdfに保存する処理
@@ -61,11 +64,18 @@ if __name__ == "__main__":
         # 取得できなかった場合スキップ
         if price_and_volume_df.empty:
             continue
+        # 2:時価総額を取得(億ドル)
+        market_cap = pav.get_market_cap(code)
+        # 証券会社が扱っていない可能性があるため時価総額で区切る
+        if market_cap < MARKET_CAP_THRESHHOLD:
+          print(f'時価総額が{market_cap}億ドル < {MARKET_CAP_THRESHHOLD}億ドル のためためスキップします')
+          continue
 
         price_series = price_and_volume_df.Close
 
         # 基準日を取得
         base_date = price_series.index[-1]
+
         # 基準日の終値を取得
         base_date_close_price = round(price_series[-1],2)
         volume = price_and_volume_df.at[base_date, 'Volume']

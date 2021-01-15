@@ -1,3 +1,6 @@
+"""
+本日分のデータを用いて予測を行います
+"""
 import pickle
 import sys,os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../common'))

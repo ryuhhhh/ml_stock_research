@@ -8,7 +8,7 @@
     - RandomForestでバギング
 """
 import sys,os
-sys.path.append(os.path.join(os.path.dirname(__file__), '../common'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../common'))
 import utils
 import VALUES
 import pickle
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     rnd_clf = RandomForestClassifier(n_estimators=500,max_leaf_nodes=32,n_jobs=-1)
     # 投票分類器
     voting_clf = VotingClassifier(
-        estimators=[('sgd_clf',sgd_clf),('rnd_clf',rnd_clf)]
+        estimators=[('sgd_clf',sgd_clf),('tree_clf',tree_clf),('rnd_clf',rnd_clf)]
     )
 
     voting_clf.fit(X_train,y_train)

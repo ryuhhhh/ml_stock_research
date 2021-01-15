@@ -15,7 +15,9 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../common'))
 import utils
 
 # 過去n日分ずつさかのぼるのを指定
-SKIP_DATE = 10
+SKIP_DATE = 5
+# 時価総額の閾値(億ドル)
+MARKET_CAP_THRESHHOLD = 5
 
 
 # def save_to_dataframe(result_df_per_company,code,base_date,base_date_close_price,volume,coefficient_of_variation,slope_list,if_close_price_10_up,close_price_up_ratio):
@@ -71,9 +73,14 @@ if __name__ == "__main__":
       if price_and_volume_df.empty:
         continue
       price_series = price_and_volume_df.Close
-      # 2:時価総額を取得
+      # 2:時価総額を取得(億ドル)
       market_cap = pav.get_market_cap(code)
-      # 10日分ずつずらしながらループしていく => dfの10番前を選択していき、その日付を取得、残り20未満になったら終了
+      # 証券会社が扱っていない可能性があるため時価総額で区切る
+      if market_cap < MARKET_CAP_THRESHHOLD:
+        print(f'時価総額が{market_cap}億ドル < {MARKET_CAP_THRESHHOLD}億ドル のためためスキップします')
+        continue
+
+      # SKIP_DATE日分ずつずらしながらループしていく => dfの10番前を選択していき、その日付を取得、残り20未満になったら終了
       for i in range(20,len(price_series),SKIP_DATE):
         # 基準日を取得
         base_date = price_series.index[i]
