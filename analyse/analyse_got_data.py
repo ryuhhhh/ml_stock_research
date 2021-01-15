@@ -37,7 +37,7 @@ def main():
     メイン関数
     データを分析します
     """
-    source_dir = os.path.join(os.path.dirname(__file__) + '/../got_data/concated_companies/concated_us_info_list.csv')
+    source_dir = os.path.join(os.path.dirname(__file__) + '/../data/got_data/concated_companies/concated_us_info_list.csv')
     df = pd.read_csv(source_dir,encoding='utf-8')
     df = df[[VALUES.CLOSING_PRICE,
             VALUES.VOLUME,

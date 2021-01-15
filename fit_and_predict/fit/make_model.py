@@ -23,7 +23,7 @@ from sklearn.ensemble import RandomForestClassifier,VotingClassifier
 
 def get_train_data():
     print('データ読み込み中...')
-    df = utils.read_csv('edited_data/train.csv')
+    df = utils.read_csv('data/got_data/train.csv')
     print('データ読み込み完了')
     # 特徴量データ
     X_train = df.drop(VALUES.IF_10per_UP_NEXT_10_DAYS, axis=1)
@@ -33,7 +33,7 @@ def get_train_data():
 
 def get_test_data():
     print('テストデータ読み込み中...')
-    df = utils.read_csv('edited_data/test.csv')
+    df = utils.read_csv('data/got_data/test.csv')
     print('テストデータ読み込み完了')
     # 特徴量データ
     X_test = df.drop(VALUES.IF_10per_UP_NEXT_10_DAYS, axis=1)

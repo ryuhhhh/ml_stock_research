@@ -20,7 +20,7 @@ SKIP_DATE = 5
 # 時価総額の閾値(億ドル)
 MARKET_CAP_THRESHHOLD = 5
 # 企業ごとの結果を置くパス
-COMPANIES_PATH = os.path.dirname(__file__)+'/../got_data/companies/'
+COMPANIES_PATH = os.path.dirname(__file__)+'/../data/got_data/companies/'
 
 
 # def save_to_dataframe(result_df_per_company,code,base_date,base_date_close_price,volume,coefficient_of_variation,slope_list,if_close_price_10_up,close_price_up_ratio):

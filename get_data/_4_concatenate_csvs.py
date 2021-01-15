@@ -19,8 +19,8 @@ def main():
     main関数
     データ連結
     """
-    sourth_dir = os.path.join(os.path.dirname(__file__) + '/../got_data/companies')
-    dest_dir = os.path.join(os.path.dirname(__file__) + '/../got_data/concated_companies/concated_us_info_list.csv')
+    sourth_dir = os.path.join(os.path.dirname(__file__) + '/../data/got_data/companies')
+    dest_dir = os.path.join(os.path.dirname(__file__) + '/../data/got_data/concated_companies/concated_us_info_list.csv')
     paths = glob.glob(sourth_dir+'/*')
     result_df = pd.DataFrame(index=[], columns=[])
     for path in paths:
