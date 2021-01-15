@@ -8,7 +8,7 @@ import VALUES
 import pandas as pd
 import numpy as np
 
-def load_model(name='model.pickle'):
+def load_model(name='fit_and_predict/models/model.pickle'):
     """
     モデルをロードします
     """

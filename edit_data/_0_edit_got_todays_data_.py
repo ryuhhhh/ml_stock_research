@@ -14,18 +14,7 @@ if __name__ == "__main__":
     df = utils.read_csv('got_data/concated_companies/todays_concated_us_list_.csv')
     df = _0_edit_got_data.edit_data_from_analyse_result(df)
     # データを標準化
-    df = _0_edit_got_data.standardize_data(df,[VALUES.VOLUME,
-                              VALUES.SLOPE_OF_LAST_5_DAYS,
-                              VALUES.SLOPE_OF_LAST_10_DAYS,
-                              VALUES.SLOPE_OF_LAST_15_DAYS,
-                              VALUES.SLOPE_OF_LAST_20_DAYS,
-                              VALUES.COEFFICIENT_OF_VARIATION,
-                              VALUES.SLOPE5_DEVIDE_RHO,
-                              VALUES.VOLUME_DEVIDE_RHO,
-                              VALUES.SLOPE5_DEVIDE_CLOSE_PRICE,
-                              VALUES.VOLUME_DEVIDE_CLOSE_PRICE,
-                              VALUES.RHO_DEVIDE_CLOSE_PRICE
-                              ])
+    df = _0_edit_got_data.standardize_data(df,VALUES.STANDARDIZE_TARGET_COLS)
     # 訓練用とテスト用でデータ分割
     # 訓練セットを保存
     utils.save_to_csv(df,'edited_data/todays.csv')

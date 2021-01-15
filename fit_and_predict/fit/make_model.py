@@ -65,7 +65,7 @@ def check_all(model,X_train,y_train,X_test,y_test):
     confusion_matrix_test,precision_score_test = check_confusion_matrix_and_precision(model,X_test,y_test)
     return val_score,confusion_matrix_train,precision_score_train,confusion_matrix_test,precision_score_test
 
-def save_model(model,name='model.pickle'):
+def save_model(model,name='fit_and_predict/models/model.pickle'):
     """
     モデルを保存します
     """

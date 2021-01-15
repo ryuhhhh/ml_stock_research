@@ -35,17 +35,7 @@ if __name__ == "__main__":
     # 1:米国株リストを取得
     us_stock_df = usl.quote_us_stock_lists()
     # 企業ごとの結果  用dfを宣言
-    cols = [VALUES.CODE_AND_DATE_ID,
-            VALUES.BASE_DATE,
-            VALUES.CLOSING_PRICE,
-            VALUES.VOLUME,
-            VALUES.SLOPE_OF_LAST_5_DAYS,
-            VALUES.SLOPE_OF_LAST_10_DAYS,
-            VALUES.SLOPE_OF_LAST_15_DAYS,
-            VALUES.SLOPE_OF_LAST_20_DAYS,
-            VALUES.COEFFICIENT_OF_VARIATION,
-            VALUES.RHO]
-    result_df_per_company = pd.DataFrame(index=[], columns=cols)
+    result_df_per_company = pd.DataFrame(index=[], columns=VALUES.PREDICT_COLS)
     result_df_per_company.set_index(VALUES.CODE_AND_DATE_ID,inplace=True)
     # 銘柄リストをループ
     for index, row in us_stock_df.iterrows():

@@ -12,12 +12,15 @@ import VALUES
 import pandas as pd
 import os,sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '../common'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../got_data'))
 import utils
 
 # 過去n日分ずつさかのぼるのを指定
 SKIP_DATE = 5
 # 時価総額の閾値(億ドル)
 MARKET_CAP_THRESHHOLD = 5
+# 企業ごとの結果を置くパス
+COMPANIES_PATH = os.path.dirname(__file__)+'/../got_data/companies/'
 
 
 # def save_to_dataframe(result_df_per_company,code,base_date,base_date_close_price,volume,coefficient_of_variation,slope_list,if_close_price_10_up,close_price_up_ratio):
@@ -43,24 +46,12 @@ if __name__ == "__main__":
     pass
     # 1:米国株リストを取得
     us_stock_df = usl.quote_us_stock_lists()
-    # 企業ごとの結果  用dfを宣言
-    cols = [VALUES.CODE_AND_DATE_ID,
-            VALUES.BASE_DATE,
-            VALUES.CLOSING_PRICE,
-            VALUES.VOLUME,
-            VALUES.SLOPE_OF_LAST_5_DAYS,
-            VALUES.SLOPE_OF_LAST_10_DAYS,
-            VALUES.SLOPE_OF_LAST_15_DAYS,
-            VALUES.SLOPE_OF_LAST_20_DAYS,
-            VALUES.COEFFICIENT_OF_VARIATION,
-            VALUES.IF_10per_UP_NEXT_10_DAYS,
-            VALUES.CLOSE_PRICE_UP_RATIO,
-            VALUES.RHO]
+
     # 銘柄リストをループ
     for index, row in us_stock_df.iterrows():
       # if index < 426:
       #   continue
-      result_df_per_company = pd.DataFrame(index=[], columns=cols)
+      result_df_per_company = pd.DataFrame(index=[], columns=VALUES.TRAIN_COLS)
       result_df_per_company.set_index(VALUES.CODE_AND_DATE_ID,inplace=True)
       # 今は情報技術セクターのみ取得
       if row[VALUES.INDUSTRY] != VALUES.IT_INDUSTRY:
@@ -104,6 +95,6 @@ if __name__ == "__main__":
         # 企業ごとの結果用dfに代入
         result_df_per_company = save_to_dataframe(result_df_per_company,data)
       # CSV化し保存する
-      utils.save_to_csv(result_df_per_company,'got_data/companies/'+code+'.csv')
+      utils.save_to_csv(result_df_per_company,os.path.join(COMPANIES_PATH+code+'.csv'))
       print('csvに保存しました\n')
 
