@@ -38,7 +38,7 @@ def main():
   # 1:米国株リストを取得
   us_stock_df = usl.quote_us_stock_lists()
   # 企業ごとの結果  用dfを宣言
-  result_df_per_company = pd.DataFrame(index=[], columns=VALUES.PREDICT_COLS)
+  result_df_per_company = pd.DataFrame(index=[], columns=VALUES.PREDICT_GET_COLS)
   result_df_per_company.set_index(VALUES.CODE_AND_DATE_ID,inplace=True)
   # 銘柄リストをループ
   for index, row in us_stock_df.iterrows():

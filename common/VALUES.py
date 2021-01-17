@@ -23,8 +23,14 @@ VOLUME_DEVIDE_CLOSE_PRICE = '出来高_割る_終値'
 RHO_DEVIDE_CLOSE_PRICE = '標準偏差_割る_終値'
 VOLUME_DEVIDE_SLOPE15 = '出来高_割る_傾き15'
 
+# 主成分
+PCA_1 = '主成分1'
+PCA_2 = '主成分2'
+PCA_3 = '主成分3'
+
 # 訓練データ用カラム
-TRAIN_COLS = [CODE_AND_DATE_ID,
+TRAIN_COLS = [
+              CODE_AND_DATE_ID,
               BASE_DATE,
               CLOSING_PRICE,
               VOLUME,
@@ -35,34 +41,38 @@ TRAIN_COLS = [CODE_AND_DATE_ID,
               COEFFICIENT_OF_VARIATION,
               IF_10per_UP_NEXT_10_DAYS,
               CLOSE_PRICE_UP_RATIO,
-              RHO]
+              RHO
+             ]
 
-# 標準化処理対象カラム
-STANDARDIZE_TARGET_COLS = [VOLUME,
-                           SLOPE_OF_LAST_5_DAYS,
-                           SLOPE_OF_LAST_10_DAYS,
-                           SLOPE_OF_LAST_15_DAYS,
-                           SLOPE_OF_LAST_20_DAYS,
-                           COEFFICIENT_OF_VARIATION,
-                           SLOPE5_DEVIDE_RHO,
-                           VOLUME_DEVIDE_RHO,
-                           SLOPE5_DEVIDE_CLOSE_PRICE,
-                           VOLUME_DEVIDE_CLOSE_PRICE,
-                           RHO_DEVIDE_CLOSE_PRICE,
-                           VOLUME_DEVIDE_SLOPE15
-                           ]
+# 予測時の取得カラム
+PREDICT_GET_COLS = [
+                    CODE_AND_DATE_ID,
+                    BASE_DATE,
+                    CLOSING_PRICE,
+                    VOLUME,
+                    SLOPE_OF_LAST_5_DAYS,
+                    SLOPE_OF_LAST_10_DAYS,
+                    SLOPE_OF_LAST_15_DAYS,
+                    SLOPE_OF_LAST_20_DAYS,
+                    COEFFICIENT_OF_VARIATION,
+                    RHO
+                   ]
 
-# 予測用カラム
-PREDICT_COLS = [CODE_AND_DATE_ID,
-                BASE_DATE,
-                CLOSING_PRICE,
-                VOLUME,
-                SLOPE_OF_LAST_5_DAYS,
-                SLOPE_OF_LAST_10_DAYS,
-                SLOPE_OF_LAST_15_DAYS,
-                SLOPE_OF_LAST_20_DAYS,
-                COEFFICIENT_OF_VARIATION,
-                RHO]
+# 標準化処理や学習用の特徴量
+TARGET_COLS = [
+                #    VOLUME,
+                #    SLOPE_OF_LAST_5_DAYS,
+                #    SLOPE_OF_LAST_10_DAYS,
+                #    SLOPE_OF_LAST_15_DAYS,
+                #    SLOPE_OF_LAST_20_DAYS,
+                    COEFFICIENT_OF_VARIATION,
+                    SLOPE5_DEVIDE_RHO,
+                    VOLUME_DEVIDE_RHO,
+                #    SLOPE5_DEVIDE_CLOSE_PRICE,
+                #    VOLUME_DEVIDE_CLOSE_PRICE,
+                    RHO_DEVIDE_CLOSE_PRICE,
+                #    VOLUME_DEVIDE_SLOPE15
+               ]
 
 CSV_ROOT_PATH = 'got_data'
 US_STOCK_LIST_CSV_NAME = 'us_stocks_list.csv'

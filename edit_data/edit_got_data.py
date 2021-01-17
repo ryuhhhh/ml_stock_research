@@ -8,6 +8,7 @@ import utils
 import VALUES
 from sklearn.model_selection import train_test_split
 import pandas as pd
+from sklearn.decomposition import PCA
 
 def impute_missing_value(df):
     """
@@ -31,7 +32,7 @@ def standardize_data(df,columns):
         # print(column_series)
         print(f'平均が{column_series.mean()},標準偏差が{column_series.std()}になりました')
         df[column] = column_series
-    print(df)
+    # print(df)
     return df
 
 
@@ -82,6 +83,17 @@ def edit_data_from_analyse_result(df):
     print(df.columns)
     return df
 
+def pca(df):
+    """
+    主成分分析を行い次元削減後の特徴量をdfに付け加えます
+    ※寄与率が等分されたため今回は未使用
+    (写像先の分散を最大化します)
+    """
+    pca = PCA(n_components=4)
+    pca.fit(df[VALUES.TARGET_COLS])
+    print(pca.explained_variance_ratio_)
+
+
 def main(is_fit=True):
     """
     main関数
@@ -95,7 +107,7 @@ def main(is_fit=True):
     df = utils.read_csv(source_path)
     df = edit_data_from_analyse_result(df)
     # データを標準化
-    df = standardize_data(df,VALUES.STANDARDIZE_TARGET_COLS)
+    df = standardize_data(df,VALUES.TARGET_COLS)
     # 訓練用とテスト用でデータ分割
     df_train, df_test = split_data(df)
 
@@ -111,7 +123,7 @@ if __name__ == "__main__":
     """
     特徴量を加工します
     args:
-
+       is_fit: 学習かどうか判断
     """
     # 引数がある場合取得
     args = sys.argv

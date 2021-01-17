@@ -28,16 +28,10 @@ def main():
     main関数
     予測を行います
     """
-    target_columns = [
-                        VALUES.COEFFICIENT_OF_VARIATION,
-                        VALUES.SLOPE_OF_LAST_5_DAYS,
-                        VALUES.SLOPE5_DEVIDE_RHO,
-                     ]
-
     # 本日分のデータを取得
     df = load_todays_data()
     origin_df = df.copy()
-    df = df[target_columns]
+    df = df[VALUES.TARGET_COLS]
 
     # モデルを取得
     model = load_model()
@@ -46,7 +40,6 @@ def main():
     for index, prediction in np.ndenumerate(predictions):
         if int(prediction) == 1:
             print(origin_df.iloc[index].ID)
-
 
 if __name__ == "__main__":
     main()
