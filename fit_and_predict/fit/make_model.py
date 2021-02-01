@@ -91,7 +91,7 @@ def main():
 
     # SGDClassifier
     sgd_clf = SGDClassifier(random_state=42)
-    # ガウスRBFカーネル => 要グリッドサーチ
+    # ガウスRBFカーネル => 要グリッドサーチ(GoogleColabで)
     svm_clf = SVC(kernel='rbf',gamma=5,C=5)
     # 決定木
     tree_clf = DecisionTreeClassifier(max_depth=3)
