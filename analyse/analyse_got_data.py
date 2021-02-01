@@ -8,6 +8,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../common'))
 import VALUES
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
 
 def make_grid_param(df,columns):
     """
@@ -29,6 +30,10 @@ def make_grid_param(df,columns):
             series_divide.name = column_outer + '_' + column_inner + '_devide'
             series_cross = target_series * column_inner_value
             series_cross.name = column_outer + '_' + column_inner + '_cross'
+            # series_exp = np.exp(round(target_series,2))
+            # series_exp.name = column_outer + '_exp'
+            # series_log = np.log(round(target_series,2))
+            # series_log.name = column_outer + '_' + column_inner + '_log'
             df = pd.concat([df, series_plus,series_minus,series_divide,series_cross], axis=1)
     return df
 
