@@ -1,1 +1,9 @@
 __pycache__/
+data/got_data/
+data/got_data/companies
+data/got_data/companies_10%_up
+data/got_data/concated_companies
+data/edited_data/
+analyse_products/
+models/
+memo.txt
